@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect - Smart Campus App</title>
+    <meta name="description" content="Smart Campus App for CampusConnect University - Navigate campus, book venues, track academics" />
+    <meta name="author" content="SoftWave Solutions" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo-container">
+                    <div class="logo-circle">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                </div>
+                <h1>CampusConnect</h1>
+                <p>Smart Campus App</p>
+            </div>
+
+            <div class="login-card">
+                <div class="card-header">
+                    <h2>Welcome Back</h2>
+                    <p>Sign in with your campus email to access your dashboard</p>
+                </div>
+                <div class="card-content">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email">Campus Email</label>
+                            <div class="input-container">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" placeholder="student@campusconnect.edu" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="input-container">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" placeholder="Enter your password" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Sign In</button>
+                    </form>
+
+                    <div class="separator">
+                        <span>or continue with</span>
+                    </div>
+
+                    <button class="btn-secondary" onclick="login()">
+                        <i class="fab fa-google"></i>
+                        Google SSO
+                    </button>
+
+                    <div class="forgot-password">
+                        <p>Forgot your password? <a href="#">Reset here</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="copyright">© 2024 CampusConnect University. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="campusApp" class="campus-app hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Desktop Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-content">
+                <button class="nav-item active" data-tab="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-tab="map">
+                    <i class="fas fa-map"></i>
+                    <span>Campus Map</span>
+                </button>
+                <button class="nav-item" data-tab="bookings">
+                    <i class="fas fa-calendar"></i>
+                    <span>Bookings</span>
+                </button>
+                <button class="nav-item" data-tab="alerts">
+                    <i class="fas fa-bell"></i>
+                    <span>Alerts</span>
+                </button>
+                <button class="nav-item" data-tab="academic">
+                    <i class="fas fa-book"></i>
+                    <span>Academic</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-container">
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <div class="dashboard-grid">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3>3.85</h3>
+                                    <p>Current GPA</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3>5</h3>
+                                    <p>Classes Today</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3>3</h3>
+                                    <p>Pending Tasks</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-door-open"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3>12</h3>
+                                    <p>Rooms Available</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quick-actions">
+                            <h3>Quick Actions</h3>
+                            <div class="action-grid">
+                                <button class="action-card" onclick="switchTab('bookings')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Book a Room</span>
+                                </button>
+                                <button class="action-card" onclick="switchTab('map')">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Find Location</span>
+                                </button>
+                                <button class="action-card" onclick="switchTab('academic')">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>View Grades</span>
+                                </button>
+                                <button class="action-card" onclick="switchTab('alerts')">
+                                    <i class="fas fa-bullhorn"></i>
+                                    <span>Check Alerts</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="today-schedule">
+                            <h3>Today's Schedule</h3>
+                            <div class="schedule-list">
+                                <div class="schedule-item">
+                                    <div class="schedule-time">9:00 AM</div>
+                                    <div class="schedule-content">
+                                        <h4>Computer Science 101</h4>
+                                        <p>Room A-201, Building A</p>
+                                    </div>
+                                </div>
+                                <div class="schedule-item">
+                                    <div class="schedule-time">11:00 AM</div>
+                                    <div class="schedule-content">
+                                        <h4>Mathematics 201</h4>
+                                        <p>Room B-105, Building B</p>
+                                    </div>
+                                </div>
+                                <div class="schedule-item">
+                                    <div class="schedule-time">2:00 PM</div>
+                                    <div class="schedule-content">
+                                        <h4>Study Group</h4>
+                                        <p>Library Room 301</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Map Tab -->
+                <div id="map" class="tab-content">
+                    <div class="map-container">
+                        <div class="map-header">
+                            <h2>Campus Navigation</h2>
+                            <p class="map-subtitle">Find your way around CampusConnect University</p>
+                        </div>
+
+                        <!-- Search and Filter -->
+                        <div class="map-search-section">
+                            <div class="search-container">
+                                <div class="search-input-wrapper">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" placeholder="Search locations..." id="mapSearch" oninput="handleMapSearch(this)">
+                                </div>
+                                <button class="filter-btn" onclick="toggleFilters()">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="filter-badges" id="filterBadges">
+                                <button class="filter-badge active" data-type="all" onclick="filterByType('all')">
+                                    <i class="fas fa-globe"></i> All
+                                </button>
+                                <button class="filter-badge" data-type="study" onclick="filterByType('study')">
+                                    📚 Study
+                                </button>
+                                <button class="filter-badge" data-type="sports" onclick="filterByType('sports')">
+                                    🏃‍♂️ Sports
+                                </button>
+                                <button class="filter-badge" data-type="dining" onclick="filterByType('dining')">
+                                    🍽️ Dining
+                                </button>
+                                <button class="filter-badge" data-type="academic" onclick="filterByType('academic')">
+                                    🔬 Academic
+                                </button>
+                                <button class="filter-badge" data-type="admin" onclick="filterByType('admin')">
+                                    🏢 Services
+                                </button>
+                                <button class="filter-badge" data-type="parking" onclick="filterByType('parking')">
+                                    🚗 Parking
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Map -->
+                        <div class="interactive-map">
+                            <div class="map-canvas" id="mapCanvas">
+                                <!-- Map background -->
+                                <div class="map-background">
+                                    <!-- Campus paths -->
+                                    <svg class="campus-paths" viewBox="0 0 400 320">
+                                        <path d="M50 0 L50 320" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+                                        <path d="M0 160 L400 160" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+                                        <path d="M100 50 L300 270" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+                                        <path d="M300 50 L100 270" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+                                    </svg>
+                                </div>
+                                
+                                <!-- Location markers will be inserted here by JavaScript -->
+                                <div class="location-markers" id="locationMarkers"></div>
+                                
+                                <!-- Map legend -->
+                                <div class="map-legend">
+                                    <h4>Legend</h4>
+                                    <div class="legend-items">
+                                        <div class="legend-item">
+                                            <div class="legend-dot study"></div>
+                                            <span>Study Areas</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-dot sports"></div>
+                                            <span>Sports</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-dot dining"></div>
+                                            <span>Dining</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-dot admin"></div>
+                                            <span>Services</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location Details Panel -->
+                        <div class="location-details" id="locationDetails" style="display: none;">
+                            <div class="location-details-content">
+                                <div class="location-header">
+                                    <div class="location-info">
+                                        <h3 id="locationName"></h3>
+                                        <p id="locationDescription"></p>
+                                    </div>
+                                    <button class="close-details" onclick="closeLocationDetails()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="location-amenities">
+                                    <h4>Available Amenities</h4>
+                                    <div class="amenities-list" id="amenitiesList"></div>
+                                </div>
+                                
+                                <div class="location-actions">
+                                    <button class="btn-primary" onclick="getDirections()">
+                                        <i class="fas fa-directions"></i> Get Directions
+                                    </button>
+                                    <button class="btn-secondary" onclick="showMoreInfo()">
+                                        <i class="fas fa-info-circle"></i> More Info
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Popular Locations -->
+                        <div class="popular-locations">
+                            <h3>Popular Locations</h3>
+                            <p class="section-subtitle">Frequently visited campus spots</p>
+                            <div class="popular-grid" id="popularGrid">
+                                <!-- Popular locations will be inserted here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bookings Tab -->
+                <div id="bookings" class="tab-content">
+                    <div class="bookings-container">
+                        <div class="bookings-header">
+                            <h2>Venue Bookings</h2>
+                            <button class="btn-primary" onclick="showBookingForm()">Book New Venue</button>
+                        </div>
+
+                        <div class="bookings-grid">
+                            <div class="booking-card">
+                                <h3>Study Room A-301</h3>
+                                <p>Today, 2:00 PM - 4:00 PM</p>
+                                <span class="status confirmed">Confirmed</span>
+                            </div>
+                            <div class="booking-card">
+                                <h3>Conference Room B-105</h3>
+                                <p>Tomorrow, 10:00 AM - 12:00 PM</p>
+                                <span class="status pending">Pending</span>
+                            </div>
+                        </div>
+
+                        <div id="bookingForm" class="booking-form hidden">
+                            <h3>Book a Venue</h3>
+                            <form>
+                                <div class="form-group">
+                                    <label>Venue Type</label>
+                                    <select>
+                                        <option>Study Room</option>
+                                        <option>Conference Room</option>
+                                        <option>Lecture Hall</option>
+                                        <option>Sports Facility</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="date">
+                                </div>
+                                <div class="form-group">
+                                    <label>Time</label>
+                                    <input type="time">
+                                </div>
+                                <button type="submit" class="btn-primary">Book Now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts Tab -->
+                <div id="alerts" class="tab-content">
+                    <div class="alerts-container">
+                        <h2>Campus Alerts</h2>
+                        <div class="alerts-list">
+                            <div class="alert-item priority-high">
+                                <div class="alert-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h4>Weather Alert</h4>
+                                    <p>Heavy rain expected. Indoor classes moved to Building C.</p>
+                                    <span class="alert-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="alert-item priority-medium">
+                                <div class="alert-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h4>Schedule Change</h4>
+                                    <p>CS 101 moved to Room A-205 today.</p>
+                                    <span class="alert-time">4 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="alert-item priority-low">
+                                <div class="alert-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h4>Library Hours</h4>
+                                    <p>Extended hours this weekend for finals preparation.</p>
+                                    <span class="alert-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic Tab -->
+                <div id="academic" class="tab-content">
+                    <div class="academic-container">
+                        <h2>Academic Dashboard</h2>
+                        <div class="academic-grid">
+                            <div class="grades-section">
+                                <h3>Current Grades</h3>
+                                <div class="grade-list">
+                                    <div class="grade-item">
+                                        <span class="course">Computer Science 101</span>
+                                        <span class="grade grade-a">A</span>
+                                    </div>
+                                    <div class="grade-item">
+                                        <span class="course">Mathematics 201</span>
+                                        <span class="grade grade-b">B+</span>
+                                    </div>
+                                    <div class="grade-item">
+                                        <span class="course">Physics 150</span>
+                                        <span class="grade grade-a">A-</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="assignments-section">
+                                <h3>Upcoming Assignments</h3>
+                                <div class="assignment-list">
+                                    <div class="assignment-item">
+                                        <h4>Data Structures Project</h4>
+                                        <p>Due: March 15, 2024</p>
+                                        <span class="priority high">High Priority</span>
+                                    </div>
+                                    <div class="assignment-item">
+                                        <h4>Calculus Problem Set</h4>
+                                        <p>Due: March 20, 2024</p>
+                                        <span class="priority medium">Medium Priority</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Mobile Tab Navigation -->
+        <nav class="mobile-nav">
+            <button class="mobile-nav-item active" data-tab="dashboard">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </button>
+            <button class="mobile-nav-item" data-tab="map">
+                <i class="fas fa-map"></i>
+                <span>Map</span>
+            </button>
+            <button class="mobile-nav-item" data-tab="bookings">
+                <i class="fas fa-calendar"></i>
+                <span>Bookings</span>
+            </button>
+            <button class="mobile-nav-item" data-tab="alerts">
+                <i class="fas fa-bell"></i>
+                <span>Alerts</span>
+            </button>
+            <button class="mobile-nav-item" data-tab="academic">
+                <i class="fas fa-book"></i>
+                <span>Academic</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
